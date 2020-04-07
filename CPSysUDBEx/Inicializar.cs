@@ -23,6 +23,9 @@ namespace CPSysUDBEx
         {
             Erros = "";
 
+            /*
+             * ADICIONE QUANTOS CAMPOS FOREM NECESSÁRIO E SE NECESSÁRIO ADCIONAR CAMPOS EM PRODUÇÃO APENAS ADICIONE A LISTA E QUANDO EXECUTAR NOVAMENTE PARA CRIAR AS TABELAS OS CAMPOS SERÃO ADICIONADOS AUTOMATICAMENTE
+             */
             List<CPSysUDB.Conexao.Campos> campos = new List<CPSysUDB.Conexao.Campos>();// CRIE UMA LIST CAMPOS PARA OS CAMPOS DE CADA TABELA
             campos.Add(new CPSysUDB.Conexao.Campos("id", // NOME DO CAMPO
                 "acessosCodigo", // APELIDO (USADO EM SELECT EX: campo'apelido')
@@ -35,7 +38,9 @@ namespace CPSysUDBEx
             CPSysUDB.Conexao.Table acessos = new CPSysUDB.Conexao.Table("acessos", // INFORMAR O NOME DA TABELA
                 "ac", // INFORMAR O APELIDO DA TABELA
                 campos);// LISTA COM OS CAMPOS
-            db.NewTable(acessos, create, true);
+            db.NewTable(acessos, // NOME DA TABELA
+                create, // CASO TRUE EXECUTA A VERIFICAÇÃO E ATUALIZAÇÃO NO DB, CASO FALSE SOMENTE CRIA EM MEMÓRIA
+                true);// FAZ A VERIFICAÇÃO DE TODOS OS CAMPOS CRIANDO OS NOVOS E ALTERANDO OS TIPOS CASO O CREATE ESTEJA EM TRUE
             if (db.Error)
             {
                 Erros += " [acessos] ErrorMsg=" + db.ErrorMsg + "\n";
@@ -51,7 +56,9 @@ namespace CPSysUDBEx
             campos1.Add(new CPSysUDB.Conexao.Campos("valor", "telasAcessosValor", "tea",
                 new CPSysUDB.Conexao.TypeCampos(CPSysUDB.Conexao.Campos.Types.DOUBLE, "10,2")));
             campos1.Add(new CPSysUDB.Conexao.Campos("dataehora", "telasAcessosData", "tea",
-                new CPSysUDB.Conexao.TypeCampos(CPSysUDB.Conexao.Campos.Types.DATETIME)));
+                new CPSysUDB.Conexao.TypeCampos(CPSysUDB.Conexao.Campos.Types.DATETIME), false, false, true, false, null, null, 
+                CPSysUDB.Conexao.Campos.Function.COUNT, // EXECUTA FUNÇÕES NO CAMPO NO CASO DE UM SELECT
+                DateTime.Now)); // DEFINE UM VALOR PADRÃO PARA REGISTROS ANTIGOS DA TABELA EM CASO DE NOVO CAMPO
             campos1.Add(new CPSysUDB.Conexao.Campos("idAcessos", "telasAcessosCodigoAcessos", "tea",
                 new CPSysUDB.Conexao.TypeCampos(CPSysUDB.Conexao.Campos.Types.INT), false, false,
                 true, // ACEITA NULLO
@@ -72,7 +79,7 @@ namespace CPSysUDBEx
             // inserindo padroes
             if (create)
             {
-                Insert(db);
+                Insert(db);// EXECUTA PRIMEIROS INSERTS PADRÃO DO BANCO
             }
             return db;
         }
@@ -80,13 +87,11 @@ namespace CPSysUDBEx
         private static void Insert(CPSysUDB.Conexao db)
         {
             // telas
-            if (ValidaExistente(db, "telas", "nome", "PDV") == 0)
+            if (ValidaExistente(db, "acessos", "nome", "AUTO ADD") == 0)// VERIFICA SE O VALOR JÁ EXISTE
             {
                 List<object> tela = new List<object>();
-                tela.Add("PDV");
-                tela.Add("PDV");
-                tela.Add("Pedido de Venda");
-                db.Insert(db.getTableByName("telas"), tela);
+                tela.Add("AUTO ADD");
+                db.Insert(db.getTableByName("acessos"), tela);
             }
         }
 

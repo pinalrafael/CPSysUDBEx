@@ -15,7 +15,8 @@ namespace CPSysUDBEx
     {
         /*
          * CRIE UM OBJETO PRINCIPAL, VOCÊ USARÁ SEMPRE EM SEU PROJETO
-         * CASO TENHA ROTINAS PARA USO DO BANCO DE DADOS CONSTANTES, CRIE UM SEGUNDO OBJETO SOMENTE PARA AS ROTINAS 
+         * CASO TENHA ROTINAS PARA USO DO BANCO DE DADOS CONSTANTES CRIE UM SEGUNDO OBJETO SOMENTE PARA AS ROTINAS 
+         * SERÁ NECESSÁRIO INICIALIZAR E CRIAR TODOS OS OBJETOS MAS SOMENTE UM CRIARÁ O BANCO DE DADOS
          */
         CPSysUDB.Conexao db;
 
@@ -37,13 +38,13 @@ namespace CPSysUDBEx
                 "sql@123",// SENHA DE LOGIN
                 true);// Persist Security Info
 
-            this.db.NewDataBase("novodb");// CRIA UM DATABASE
+            this.db.NewDataBase("novodb");// CRIA UM DATABASE E TROCA O DB 
 
             /*
              * CASO VOCÊ NÃO QUERIA EXECUTAR ATUALIZAR TODA VEZ DO BANCO DE DADOS, INFORME FALSE PARA ELE CRIAR APENAS AS TABELAS EM MEMÓRIA
              */
             this.db = Inicializar.Create(this.db, // INFORME O OBJETO INICIADO PARA A CRIAÇÃO DO BANCO DE DADOS
-                true); // CASO INFORMADO COMO TRUE ELE EXECUTA A CRIAÇÃO DO BANCO DE DADOS, ATUALIZANDO AS TABELAS
+                true); // CASO INFORMADO COMO TRUE ELE EXECUTA A CRIAÇÃO DAS TABELAS ALTERANDO OS CAMPOS E CRIANDO OS NOVOS CAMPOS
 
             this.db.TestConexao();// FAZ UM TESTE DE CONEXÃO
 
@@ -65,7 +66,16 @@ namespace CPSysUDBEx
 
             List<string> querys = this.db.LogQuery; // ACESSE TODO O LOG DE QUERYS QUANDO A OPÇÃO A CIMA ESTIVER ATIVA
 
-
+            /*
+             * ADICIONAR UMA FK NA MÃO, NÃO É NECESSÁRIO EXECUTAR QUANDO FOR ADICIONAR FK, POIS O PRÓPRIO NewTable CRIA CASO SEJA UMA FK
+             * 
+            this.db.AddForeignKey(db.getTableByName("acessos"),// TABELA
+                "FK_TESTE", NOME DA FK
+                this.db.getCampoByName(db.getTableByName("acessos"), "id"),// ID DA TABELA
+                db.getTableByName("TABELA2"),// TABELA REFERENCES
+                this.db.getCampoByName(db.getTableByName("TABELA2"), "idfK"));// ID DA TABELA REFERENCES
+            *
+            */
         }
     }
 }
