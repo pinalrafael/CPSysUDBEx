@@ -12,7 +12,7 @@ A biblioteca é grátis para uso comercial ou não comercial.
 <br/>
 Tornar o banco de dados do sistema híbrido facilitando a mudança para MySQL ou SQL Server a qaulquer momento.
 <br/>
-Facilitar a atualização do banco de dados no cliente não precisando executar scripts para criar novas tabelas.
+Facilitar a atualização do banco de dados no cliente não precisando executar scripts para criar novas tabelas e campo.
 <br/>
 Funciona em projetos desktop e web testados.
 
