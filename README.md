@@ -1,16 +1,18 @@
-# BIBLIOTECA CPSysUDB
-=================
+# CPSysUDB
+-----
 
-[NuGet Packages](https://www.nuget.org/packages/CPSysUDB/1.0.3.5)
+[NuGet Packages](https://www.nuget.org/packages/CPSysUDB/1.0.3.8)
 
 # A DLL
 -----
 
-A biblioteca é free para uso comercial ou não comercial.
+A biblioteca é grátis para uso comercial ou não comercial.
 <br/>
 Tornar o banco de dados do sistema híbrido facilitando a mudança para MySQL ou SQL Server a qaulquer momento.
 <br/>
 Facilitar a atualização do banco de dados no cliente não precisando executar scripts para criar novas tabelas.
+<br/>
+Funciona em projetos desktop e web testados.
 
 # USANDO
 -----
