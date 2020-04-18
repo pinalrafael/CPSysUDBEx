@@ -88,6 +88,13 @@ namespace CPSysUDBEx
             this.db.VerifyColumn("NOME TABELA", "COME CAMPO"); // VERIFICA SE UM CAMPO DE UMA TABELA EXISTE
 
             this.Atualizar();
+
+            /* UPDATES 
+             * 1.0.3.9
+             * - ADICIONANDO TIPO BLOB OU IMAGE
+             * 
+             */
+
         }
 
         private void btnNovo_Click(object sender, EventArgs e)
