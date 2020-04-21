@@ -1,7 +1,7 @@
 # CPSysUDB
 -----
 
-[NuGet Packages](https://www.nuget.org/packages/CPSysUDB/1.0.3.8)
+[NuGet Packages](https://www.nuget.org/packages/CPSysUDB/)
 <br/>
 .NET Framework 4.7.2
 
