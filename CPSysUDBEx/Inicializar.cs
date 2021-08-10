@@ -35,6 +35,8 @@ namespace CPSysUDBEx
                 true)); // AUTO INCREMENTO
             campos.Add(new CPSysUDB.Conexao.Campos("nome", "acessosNome", "ac",
                 new CPSysUDB.Conexao.TypeCampos(CPSysUDB.Conexao.Campos.Types.VARCHAR, "100")));
+            campos.Add(new CPSysUDB.Conexao.Campos("dataehora", "acessosData", "ac",
+                new CPSysUDB.Conexao.TypeCampos(CPSysUDB.Conexao.Campos.Types.DATETIME))); // DEFINE UM VALOR PADRÃO PARA REGISTROS ANTIGOS DA TABELA EM CASO DE NOVO CAMPO
             CPSysUDB.Conexao.Table acessos = new CPSysUDB.Conexao.Table("acessos", // INFORMAR O NOME DA TABELA
                 "ac", // INFORMAR O APELIDO DA TABELA
                 campos);// LISTA COM OS CAMPOS
@@ -89,8 +91,9 @@ namespace CPSysUDBEx
             // telas
             if (ValidaExistente(db, "acessos", "nome", "AUTO ADD") == 0)// VERIFICA SE O VALOR JÁ EXISTE
             {
-                List<object> tela = new List<object>();
-                tela.Add("AUTO ADD");
+                List<CPSysUDB.Conexao.Values> tela = new List<CPSysUDB.Conexao.Values>();
+                tela.Add(new CPSysUDB.Conexao.Values("AUTO ADD"));
+                tela.Add(new CPSysUDB.Conexao.Values(CPSysUDB.Conexao.Values.Functions.GETDATE));// USA A FUNÇÃO GETDATE NO SQL
                 db.Insert(db.getTableByName("acessos"), tela);
             }
         }
@@ -104,7 +107,7 @@ namespace CPSysUDBEx
                 List<CPSysUDB.Conexao.Where> where = new List<CPSysUDB.Conexao.Where>();
                 campos.Add(db.getCampoByName(db.getTableByName(table), campo));
                 where.Add(new CPSysUDB.Conexao.Where(db.getCampoByName(db.getTableByName(table), campo),
-                    CPSysUDB.Conexao.Where.Command.EQUALS, valor));
+                    CPSysUDB.Conexao.Where.Command.EQUALS, new CPSysUDB.Conexao.Values(valor)));
                 select.Add(new CPSysUDB.Conexao.Select(db.getTableByName(table), campos, false, null, where));
                 DataSet ds = db.SelectValue(select);
 

@@ -100,8 +100,9 @@ namespace CPSysUDBEx
         private void btnNovo_Click(object sender, EventArgs e)
         {
             // LISTA DOS CAMPOS PARA INSERT, DEVE CONTER A MESMA QUANTIDADE DE CAMPOS DA TABELA
-            List<object> tela = new List<object>();
-            tela.Add(txtAddNome.Text);
+            List<CPSysUDB.Conexao.Values> tela = new List<CPSysUDB.Conexao.Values>();
+            tela.Add(new CPSysUDB.Conexao.Values(txtAddNome.Text));
+            tela.Add(new CPSysUDB.Conexao.Values(CPSysUDB.Conexao.Values.Functions.GETDATE));// USA A FUNÇÃO GETDATE NO SQL
 
             this.db.Insert(this.db.getTableByName("acessos"), // TABELA DO INSERT
                 tela);// VALORES
@@ -116,14 +117,14 @@ namespace CPSysUDBEx
             campos.Add(this.db.getCampoByName(this.db.getTableByName("acessos"), "nome"));
 
             // VALORES DO UPDATE
-            List<object> tela = new List<object>();
-            tela.Add(txtUpdateName.Text);
+            List<CPSysUDB.Conexao.Values> tela = new List<CPSysUDB.Conexao.Values>();
+            tela.Add(new CPSysUDB.Conexao.Values(txtUpdateName.Text));
 
             List<CPSysUDB.Conexao.Where> where = new List<CPSysUDB.Conexao.Where>();// INICIAR AS CONDIÇÕES PARA UPDATE
 
             where.Add(new CPSysUDB.Conexao.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
                 CPSysUDB.Conexao.Where.Command.EQUALS, // CONDIÇÃO DO WHERE
-                lblId.Text));// VALOR DO WHERE
+                new CPSysUDB.Conexao.Values(lblId.Text)));// VALOR DO WHERE
 
             this.db.Update(this.db.getTableByName("acessos"), // TABELA DO UPDATE
                 this.db.getTableByName("acessos").Campos, // CASO OS CAMPOS NÃO SEJA ESPECIFICADO DEVE INFORMAR TODOS OS VALORES EXCETO AUTO INCREMENT
@@ -139,7 +140,7 @@ namespace CPSysUDBEx
 
             where.Add(new CPSysUDB.Conexao.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
                 CPSysUDB.Conexao.Where.Command.EQUALS, // CONDIÇÃO DO WHERE
-                lblId.Text));// VALOR DO WHERE
+                new CPSysUDB.Conexao.Values(lblId.Text)));// VALOR DO WHERE
 
             this.db.Delete(this.db.getTableByName("acessos"), // TABELA DO DELETE
                 where);// CONDIÇÃO PARA DELETE
@@ -175,7 +176,7 @@ namespace CPSysUDBEx
 
             where.Add(new CPSysUDB.Conexao.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
                 CPSysUDB.Conexao.Where.Command.BIGGEREQUALS, // CONDIÇÃO DO WHERE
-                1, // VALOR DO WHERE (UM CAMPO TAMBEM PODE SER INFORMADO)
+                new CPSysUDB.Conexao.Values(1), // VALOR DO WHERE (UM CAMPO TAMBEM PODE SER INFORMADO)
                 null, // VALOR 2 CASO DE BETWEEN
                 Conexao.Where.Union.NONE, // AND OU OR CASO DE MAIS WHERE
                 false, // ABRE UM PARENTESES
