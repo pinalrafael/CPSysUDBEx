@@ -11,16 +11,16 @@ using System.Windows.Forms;
 
 namespace CPSysUDBEx
 {
-    public partial class Form1 : Form
+    public partial class ExemploCPSysSQLFramework1 : Form
     {
         /*
          * CRIE UM OBJETO PRINCIPAL, VOCÊ USARÁ SEMPRE EM SEU PROJETO
          * CASO TENHA ROTINAS PARA USO DO BANCO DE DADOS CONSTANTES CRIE UM SEGUNDO OBJETO SOMENTE PARA AS ROTINAS 
          * SERÁ NECESSÁRIO INICIALIZAR E CRIAR TODOS OS OBJETOS MAS SOMENTE UM CRIARÁ O BANCO DE DADOS
          */
-        CPSysUDB.Conexao db;
+        CPSysUDB.CPSysSQLFramework1 db;
 
-        public Form1()
+        public ExemploCPSysSQLFramework1()
         {
             InitializeComponent();
         }
@@ -30,12 +30,12 @@ namespace CPSysUDBEx
             /*
              * VOCÊ PODE INFORMAR MYSQL OU SQLSRV PARA SE CONECTAR NO BANCO DE DAODS SEGUINDO COM AS INFORMAÇÕES DE ACESSO
              */
-            this.db = Inicializar.InicializarDB(CPSysUDB.Conexao.ConexaoData.Banco.SQLSRV, // QUAL BANCO DE DADOS USARÁ
-                @"RAFAEL-PC\SQLEXPRESS", // SERVIDOR DO BANCO DE DADOS
+            this.db = InicializarCPSysSQLFramework1.InicializarDB(CPSysUDB.Enums.DataBases.MYSQL, // QUAL BANCO DE DADOS USARÁ
+                @"localhost", // SERVIDOR DO BANCO DE DADOS
                 true,// USO DE SENHA
-                "db_teste",// NOME DO BANCO DE DADOS
-                "sa", // USUÁRIO DE LOGIN
-                "***",// SENHA DE LOGIN
+                "db_testev1",// NOME DO BANCO DE DADOS
+                "root", // USUÁRIO DE LOGIN
+                "",// SENHA DE LOGIN
                 true);// Persist Security Info
 
             //this.db.NewDataBase("novodb");// CRIA UM DATABASE E TROCA O DB 
@@ -43,7 +43,7 @@ namespace CPSysUDBEx
             /*
              * CASO VOCÊ NÃO QUERIA EXECUTAR ATUALIZAR TODA VEZ DO BANCO DE DADOS, INFORME FALSE PARA ELE CRIAR APENAS AS TABELAS EM MEMÓRIA
              */
-            this.db = Inicializar.Create(this.db, // INFORME O OBJETO INICIADO PARA A CRIAÇÃO DO BANCO DE DADOS
+            this.db = InicializarCPSysSQLFramework1.Create(this.db, // INFORME O OBJETO INICIADO PARA A CRIAÇÃO DO BANCO DE DADOS
                 true); // CASO INFORMADO COMO TRUE ELE EXECUTA A CRIAÇÃO DAS TABELAS ALTERANDO OS CAMPOS E CRIANDO OS NOVOS CAMPOS
 
             this.db.TestConexao();// FAZ UM TESTE DE CONEXÃO
@@ -52,7 +52,7 @@ namespace CPSysUDBEx
 
             this.db.getCampoByName(db.getTableByName("acessos"), "id"); // RETORNA UM CAMPO PELO NOME DE UMA TABELA
 
-            List<Conexao.Table> table = this.db.Tables;// LE TODAS AS TABELAS ATUAIS
+            List<CPSysSQLFramework1.Table> table = this.db.Tables;// LE TODAS AS TABELAS ATUAIS
 
             bool erro = this.db.Error; // VERIFICA SE HOUVE ERRO
 
@@ -100,9 +100,9 @@ namespace CPSysUDBEx
         private void btnNovo_Click(object sender, EventArgs e)
         {
             // LISTA DOS CAMPOS PARA INSERT, DEVE CONTER A MESMA QUANTIDADE DE CAMPOS DA TABELA
-            List<CPSysUDB.Conexao.Values> tela = new List<CPSysUDB.Conexao.Values>();
-            tela.Add(new CPSysUDB.Conexao.Values(txtAddNome.Text));
-            tela.Add(new CPSysUDB.Conexao.Values(CPSysUDB.Conexao.Values.Functions.GETDATE));// USA A FUNÇÃO GETDATE NO SQL
+            List<CPSysUDB.DAL.Values> tela = new List<CPSysUDB.DAL.Values>();
+            tela.Add(new CPSysUDB.DAL.Values(txtAddNome.Text));
+            tela.Add(new CPSysUDB.DAL.Values(CPSysUDB.DAL.Values.Functions.GETDATE));// USA A FUNÇÃO GETDATE NO SQL
 
             this.db.Insert(this.db.getTableByName("acessos"), // TABELA DO INSERT
                 tela);// VALORES
@@ -112,19 +112,19 @@ namespace CPSysUDBEx
 
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
-            List<CPSysUDB.Conexao.Campos> campos = new List<CPSysUDB.Conexao.Campos>();// INICIA OS CAMPOS DO UPDATE
+            List<CPSysUDB.CPSysSQLFramework1.Campos> campos = new List<CPSysUDB.CPSysSQLFramework1.Campos>();// INICIA OS CAMPOS DO UPDATE
 
             campos.Add(this.db.getCampoByName(this.db.getTableByName("acessos"), "nome"));
 
             // VALORES DO UPDATE
-            List<CPSysUDB.Conexao.Values> tela = new List<CPSysUDB.Conexao.Values>();
-            tela.Add(new CPSysUDB.Conexao.Values(txtUpdateName.Text));
+            List<CPSysUDB.DAL.Values> tela = new List<CPSysUDB.DAL.Values>();
+            tela.Add(new CPSysUDB.DAL.Values(txtUpdateName.Text));
 
-            List<CPSysUDB.Conexao.Where> where = new List<CPSysUDB.Conexao.Where>();// INICIAR AS CONDIÇÕES PARA UPDATE
+            List<CPSysUDB.CPSysSQLFramework1.Where> where = new List<CPSysUDB.CPSysSQLFramework1.Where>();// INICIAR AS CONDIÇÕES PARA UPDATE
 
-            where.Add(new CPSysUDB.Conexao.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
-                CPSysUDB.Conexao.Where.Command.EQUALS, // CONDIÇÃO DO WHERE
-                new CPSysUDB.Conexao.Values(lblId.Text)));// VALOR DO WHERE
+            where.Add(new CPSysUDB.CPSysSQLFramework1.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
+                CPSysUDB.Enums.Command.EQUALS, // CONDIÇÃO DO WHERE
+                new CPSysUDB.DAL.Values(lblId.Text)));// VALOR DO WHERE
 
             this.db.Update(this.db.getTableByName("acessos"), // TABELA DO UPDATE
                 this.db.getTableByName("acessos").Campos, // CASO OS CAMPOS NÃO SEJA ESPECIFICADO DEVE INFORMAR TODOS OS VALORES EXCETO AUTO INCREMENT
@@ -136,11 +136,11 @@ namespace CPSysUDBEx
 
         private void btnDeletar_Click(object sender, EventArgs e)
         {
-            List<CPSysUDB.Conexao.Where> where = new List<CPSysUDB.Conexao.Where>();// INICIAR AS CONDIÇÕES PARA DELETE
+            List<CPSysUDB.CPSysSQLFramework1.Where> where = new List<CPSysUDB.CPSysSQLFramework1.Where>();// INICIAR AS CONDIÇÕES PARA DELETE
 
-            where.Add(new CPSysUDB.Conexao.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
-                CPSysUDB.Conexao.Where.Command.EQUALS, // CONDIÇÃO DO WHERE
-                new CPSysUDB.Conexao.Values(lblId.Text)));// VALOR DO WHERE
+            where.Add(new CPSysUDB.CPSysSQLFramework1.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
+                CPSysUDB.Enums.Command.EQUALS, // CONDIÇÃO DO WHERE
+                new CPSysUDB.DAL.Values(lblId.Text)));// VALOR DO WHERE
 
             this.db.Delete(this.db.getTableByName("acessos"), // TABELA DO DELETE
                 where);// CONDIÇÃO PARA DELETE
@@ -159,44 +159,44 @@ namespace CPSysUDBEx
 
         private void Atualizar()
         {
-            List<CPSysUDB.Conexao.Select> select = new List<CPSysUDB.Conexao.Select>();// INICIANDO UM OU MAIS SELECTS
-            List<CPSysUDB.Conexao.Campos> campos = new List<CPSysUDB.Conexao.Campos>();// ADICIONANDO CAMPOS DO SELECT
-            List<CPSysUDB.Conexao.Join> join = new List<CPSysUDB.Conexao.Join>(); // ADICONANDO JOIN AO SELECT
-            List<CPSysUDB.Conexao.Where> where = new List<CPSysUDB.Conexao.Where>(); // ADICIONANDO CONDIÇÕES WHERE PARA O SELECT
-            List<CPSysUDB.Conexao.OrderBy> orderby = new List<CPSysUDB.Conexao.OrderBy>();// ADICIONANDO ORDER BY AO SELECT
-            List<CPSysUDB.Conexao.GroupBy> groupby = new List<CPSysUDB.Conexao.GroupBy>();// ADICIONANDO GROUP BY AO SELECT
+            List<CPSysUDB.CPSysSQLFramework1.Select> select = new List<CPSysUDB.CPSysSQLFramework1.Select>();// INICIANDO UM OU MAIS SELECTS
+            List<CPSysUDB.CPSysSQLFramework1.Campos> campos = new List<CPSysUDB.CPSysSQLFramework1.Campos>();// ADICIONANDO CAMPOS DO SELECT
+            List<CPSysUDB.CPSysSQLFramework1.Join> join = new List<CPSysUDB.CPSysSQLFramework1.Join>(); // ADICONANDO JOIN AO SELECT
+            List<CPSysUDB.CPSysSQLFramework1.Where> where = new List<CPSysUDB.CPSysSQLFramework1.Where>(); // ADICIONANDO CONDIÇÕES WHERE PARA O SELECT
+            List<CPSysUDB.CPSysSQLFramework1.OrderBy> orderby = new List<CPSysUDB.CPSysSQLFramework1.OrderBy>();// ADICIONANDO ORDER BY AO SELECT
+            List<CPSysUDB.CPSysSQLFramework1.GroupBy> groupby = new List<CPSysUDB.CPSysSQLFramework1.GroupBy>();// ADICIONANDO GROUP BY AO SELECT
 
             campos.Add(this.db.getCampoByName(this.db.getTableByName("acessos"), "id"));
             campos.Add(this.db.getCampoByName(this.db.getTableByName("acessos"), "nome"));
 
-            join.Add(new Conexao.Join(this.db.getTableByName("telasacessos"), // TABELA DO JOIN
+            join.Add(new CPSysSQLFramework1.Join(this.db.getTableByName("telasacessos"), // TABELA DO JOIN
                 this.db.getCampoByName(this.db.getTableByName("telasacessos"), "idAcessos"), // CAMPO DA TABELA DO JOIN
                 this.db.getCampoByName(this.db.getTableByName("acessos"), "id"), // CAMPO DA TABELA PAI
-                Conexao.Join.Joins.INNER));// TIPO DO JOIN INNER, LEFT, RIGHT
+                CPSysUDB.Enums.Joins.INNER));// TIPO DO JOIN INNER, LEFT, RIGHT
 
-            where.Add(new CPSysUDB.Conexao.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
-                CPSysUDB.Conexao.Where.Command.BIGGEREQUALS, // CONDIÇÃO DO WHERE
-                new CPSysUDB.Conexao.Values(1), // VALOR DO WHERE (UM CAMPO TAMBEM PODE SER INFORMADO)
+            where.Add(new CPSysUDB.CPSysSQLFramework1.Where(db.getCampoByName(this.db.getTableByName("acessos"), "id"),// CAMPO DO WHERE 
+                CPSysUDB.Enums.Command.BIGGEREQUALS, // CONDIÇÃO DO WHERE
+                new CPSysUDB.DAL.Values(1), // VALOR DO WHERE (UM CAMPO TAMBEM PODE SER INFORMADO)
                 null, // VALOR 2 CASO DE BETWEEN
-                Conexao.Where.Union.NONE, // AND OU OR CASO DE MAIS WHERE
+                CPSysUDB.Enums.Operator.NONE, // AND OU OR CASO DE MAIS WHERE
                 false, // ABRE UM PARENTESES
                 false, // FECHA PARENTESES
                 null, // SELECTS PARA SUBQUERY NO WHERE
                 null));// NOMES DAS SUBQUERY
 
-            orderby.Add(new Conexao.OrderBy(this.db.getCampoByName(this.db.getTableByName("acessos"), "id"), // CAMPO DO ORDERBY
-                Conexao.OrderBy.Ordem.ASC));// ORDENAÇÃO ASC OU DESC
+            orderby.Add(new CPSysSQLFramework1.OrderBy(this.db.getCampoByName(this.db.getTableByName("acessos"), "id"), // CAMPO DO ORDERBY
+                CPSysUDB.Enums.Order.ASC));// ORDENAÇÃO ASC OU DESC
 
-            groupby.Add(new Conexao.GroupBy(this.db.getCampoByName(this.db.getTableByName("acessos"), "id"))); // CAMPO DO GROUPBY
+            //groupby.Add(new CPSysSQLFramework1.GroupBy(this.db.getCampoByName(this.db.getTableByName("acessos"), "id"))); // CAMPO DO GROUPBY
 
-            select.Add(new CPSysUDB.Conexao.Select(this.db.getTableByName("acessos"), // TABELA DO SELECT
+            select.Add(new CPSysUDB.CPSysSQLFramework1.Select(this.db.getTableByName("acessos"), // TABELA DO SELECT
                 campos, // CAMPOS DO SELECT
                 false, // USAR DISTINCT
                 null, // JOIN
                 where, // WHERE
                 orderby, // ORDER BY
                 null, // GROUP BY
-                Conexao.Select.Union.NONE, // UNION CASO DE MAIS SELECTS NA LISTA
+                CPSysUDB.Enums.Union.NONE, // UNION CASO DE MAIS SELECTS NA LISTA
                 null, // SUBQUERY
                 null, // NOMES DAS SUBQUERYS
                 -1, // LIMITE DE CAMPOS NO SELECT -1 SEM LIMITE

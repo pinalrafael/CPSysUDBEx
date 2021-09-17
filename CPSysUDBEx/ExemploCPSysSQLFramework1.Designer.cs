@@ -1,6 +1,6 @@
 ﻿namespace CPSysUDBEx
 {
-    partial class Form1
+    partial class ExemploCPSysSQLFramework1
     {
         /// <summary>
         /// Variável de designer necessária.
