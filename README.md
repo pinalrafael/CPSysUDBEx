@@ -2,8 +2,6 @@
 [NuGet Packages](https://www.nuget.org/packages/CPSysUDB/)
 .NET Framework 4.7.2
 
-[TOCM]
-
 ## pt-BR
 ### Descrição
 A biblioteca foi criada com a finalidade de tornar o desenvolvimento de uma aplicação mais ágil, facilitando a criação e atualização do banco de dados, comunicação com SQL Server e MySQL, contolar as rotinas de banco de dados e integração universal entre todas as plataformas compatíveis com C#.
@@ -36,6 +34,10 @@ Esta versão foi a idéia inicial do projeto ainda é necessário criar as tabel
 - Respeitar as regras do banco de dados
 
 #### Como Usar
+- Importe a biblioteca
+```cs
+using CPSysUDB;
+```
 - Inicie uma conexão
 ```cs
 CPSysSQLFramework1 c = new CPSysSQLFramework1(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_teste1", "root", ""));// configure a conexao
@@ -142,6 +144,10 @@ Esta versão é a idéia final do projeto com diversas melhorias como o uso de e
 - Criar as tabelas em ordem de dependëncia
 
 #### Como Usar
+- Importe a biblioteca
+```cs
+using CPSysUDB;
+```
 - Inicie uma conexão
 ```cs
 CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_teste2", "root", ""), true);// configure a conexao
@@ -278,6 +284,10 @@ This version was the initial idea of ​​the project it is still necessary to 
 - Respect database rules
 
 #### How to use
+- import a library
+```cs
+using CPSysUDB;
+```
 - Start a connection
 ```cs
 CPSysSQLFramework1 c = new CPSysSQLFramework1(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_test1", "root", ""));// configure the connection
@@ -384,6 +394,10 @@ This version is the final idea of ​​the project with several improvements su
 - Create the tables in order of dependence
 
 #### How to use
+- import a library
+```cs
+using CPSysUDB;
+```
 - Start a connection
 ```cs
 CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_test2", "root", ""), true);// configure the connection

@@ -78,6 +78,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassesCPSysSQLFramework2\acessos.cs" />
+    <Compile Include="ClassesCPSysSQLFramework2\telasacessos.cs" />
     <Compile Include="ExemploCPSysSQLFramework1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,8 +126,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClassesCPSysSQLFramework2\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

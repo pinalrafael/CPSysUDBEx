@@ -16,7 +16,7 @@ namespace CPSysUDBEx
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ExemploCPSysSQLFramework1());
+            Application.Run(new ExemploCPSysSQLFramework2());
         }
     }
 }

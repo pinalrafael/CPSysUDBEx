@@ -127,7 +127,7 @@ namespace CPSysUDBEx
                 new CPSysUDB.DAL.Values(lblId.Text)));// VALOR DO WHERE
 
             this.db.Update(this.db.getTableByName("acessos"), // TABELA DO UPDATE
-                this.db.getTableByName("acessos").Campos, // CASO OS CAMPOS NÃO SEJA ESPECIFICADO DEVE INFORMAR TODOS OS VALORES EXCETO AUTO INCREMENT
+                campos,//this.db.getTableByName("acessos").Campos, // CASO OS CAMPOS NÃO SEJA ESPECIFICADO DEVE INFORMAR TODOS OS VALORES EXCETO AUTO INCREMENT
                 tela, // VALORES DO UPDATE
                 where);// CONDIÇÃO PARA UPDATE
 
