@@ -14,8 +14,24 @@ namespace CPSysUDBEx
 
         public static CPSysUDB.CPSysSQLFramework2 InicializarDB(CPSysUDB.Enums.DataBases tipo, string servidor, bool usarSenha, string database, string usuario, string senha, bool persistSecurityInfo)
         {
-            return new CPSysUDB.CPSysSQLFramework2(new CPSysUDB.Configuration.ConnectionData(servidor, tipo, usarSenha, database, usuario, senha, persistSecurityInfo), // DADOS DA CONEXÃO
-                false);// CRIAR BANCO DE DADOS
+            CPSysUDB.Configuration.ConnectionData connectionData = null;
+            switch (tipo)
+            {
+                case CPSysUDB.Enums.DataBases.SQLSRV:
+                    connectionData = CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLSRV(servidor, usarSenha, database, usuario, senha, persistSecurityInfo);
+                    break;
+                case CPSysUDB.Enums.DataBases.MYSQL:
+                    connectionData = CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(servidor, usarSenha, database, usuario, senha, persistSecurityInfo);
+                    break;
+                case CPSysUDB.Enums.DataBases.FIREBIRD:
+                    connectionData = CPSysUDB.Configuration.ConnectionData.CreateConnectionFIREBIRD(servidor, usarSenha, database, usuario, senha);
+                    break;
+                case CPSysUDB.Enums.DataBases.SQLITE:
+                    connectionData = CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(database, "Version=3;");
+                    break;
+            }
+            return new CPSysUDB.CPSysSQLFramework2(connectionData, // DADOS DA CONEXÃO
+                true);// CRIAR BANCO DE DADOS
             /*
              * OBS: SE NÃO INFORMAR O BANCO DE DADOS ELE CONECTA NO BANCO PADRÃO DO SQLSRV OU MYSQL
              */

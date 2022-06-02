@@ -4,119 +4,12 @@
 
 ## pt-BR
 ### Descrição
-A biblioteca foi criada com a finalidade de tornar o desenvolvimento de uma aplicação mais ágil, facilitando a criação e atualização do banco de dados, comunicação com SQL Server e MySQL, contolar as rotinas de banco de dados e integração universal entre todas as plataformas compatíveis com C#.
+A biblioteca foi criada com a finalidade de tornar o desenvolvimento de uma aplicação mais ágil, facilitando a criação e atualização do banco de dados, comunicação com SQL Server, MySQL, Firebird e SQLite, contolar as rotinas de banco de dados e integração universal entre todas as plataformas compatíveis com C#.
 
 ### Motivação
 - Criar um sistema em um banco de dados específico mas em algum cliente era necessário outro banco de dados
 - Criação e atualização do banco de dados do cliente pela própria aplicação
 - Não usar querys de banco de dados
-
-### CPSysSQLFramework1
-Esta versão foi a idéia inicial do projeto ainda é necessário criar as tabelas manualmente usando os objetos da classe.
-
-#### Recursos
-- Controle total das rotinas de criação e atualização do banco de dados
-- Comunicação híbrida com SQL Server e MySQL sem necessidade de criar querys separadas apenas trocando os dados de conexão
-- Auto atualização do banco de dados, tabelas e campos
-- Criação de PK com auto incremento e FK
-- Respeitar regras do banco de dados
-- Cria o banco de dados automaticamente
-- Create DataBase, Create Table, Insert, Update, Delete, Select
-- Where, Order By, Group By, Union, Limit, Joins e Sub Querys
-- Suporte para usar um campo de uma tabela no where
-- Suporte para funções do banco de dados como GETDATE e DATEADD
-
-#### Compatibilidades
-- Suporte para INT, VARCHAR, NVARCHAR, DATETIME, DOUBLE e IMAGE
-- Compatível com WEB e Desktop
-
-#### Restições
-- Respeitar as regras do banco de dados
-
-#### Como Usar
-- Importe a biblioteca
-```cs
-using CPSysUDB;
-```
-- Inicie uma conexão
-```cs
-CPSysSQLFramework1 c = new CPSysSQLFramework1(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_teste1", "root", ""));// configure a conexao
-```
-- Crie o banco de dados
-```cs
-c.NewDataBase("db_teste");
-```
-- Crie as tabelas
-```cs
-List<CPSysSQLFramework1.Campos> campos2 = new List<CPSysSQLFramework1.Campos>();
-campos2.Add(new CPSysSQLFramework1.Campos("id", "codigo2", "t2", new CPSysSQLFramework1.TypeCampos(CPSysSQLFramework1.Campos.Types.INT), true, true));// crie uma PK auto incremento
-campos2.Add(new CPSysSQLFramework1.Campos("texto", "texto2", "t2", new CPSysSQLFramework1.TypeCampos(CPSysSQLFramework1.Campos.Types.NVARCHAR, "100")));// campo simples com parâmetro
-campos2.Add(new CPSysSQLFramework1.Campos("cadastro", "cadastro", "t2", new CPSysSQLFramework1.TypeCampos(CPSysSQLFramework1.Campos.Types.DATETIME)));// campo simples sem parâmetro
-campos2.Add(new CPSysSQLFramework1.Campos("idtable", "codigotable", "t2", new CPSysSQLFramework1.TypeCampos(CPSysSQLFramework1.Campos.Types.INT), false, false, false, true, c.getTableByName("tabela"), c.getCampoByName(c.getTableByName("tabela"), "id")));// crie uma FK
-CPSysSQLFramework1.Table table2 = new CPSysSQLFramework1.Table("tabela2", "t2", campos2);// declare a tabela
-c.NewTable(table2, true, true);
-```
-- Insira dados
-```cs
-List<CPSysUDB.DAL.Values> valores3 = new List<CPSysUDB.DAL.Values>();
-valores3.Add(new CPSysUDB.DAL.Values("teste"));// valor para campo simples
-valores3.Add(new CPSysUDB.DAL.Values(1));
-valores3.Add(new CPSysUDB.DAL.Values(CPSysUDB.DAL.Values.Functions.GETDATE));// valor usando funções do banco de dados
-c.Insert(c.getTableByName("tabela2"), valores3);
-```
-- Atualize dados
-```cs
-List<CPSysUDB.DAL.Values> valores2 = new List<CPSysUDB.DAL.Values>();
-valores2.Add(new CPSysUDB.DAL.Values("teste 123"));// valor a ser atualizado
-List<CPSysSQLFramework1.Where> where = new List<CPSysSQLFramework1.Where>();
-where.Add(new CPSysSQLFramework1.Where(c.getCampoByName(c.getTableByName("tabela"), "id"), CPSysUDB.Enums.Command.EQUALS, new CPSysUDB.DAL.Values(3)));
-c.Update(c.getTableByName("tabela"), c.getTableByName("tabela").Campos, valores2, where);
-```
-- Exclua dados
-```cs
-List<CPSysSQLFramework1.Where> where2 = new List<CPSysSQLFramework1.Where>();
-where2.Add(new CPSysSQLFramework1.Where(c.getCampoByName(c.getTableByName("tabela"), "id"), CPSysUDB.Enums.Command.EQUALS, new CPSysUDB.DAL.Values(4)));// where do delete
-c.Delete(c.getTableByName("tabela"), where2);
-```
-- Consulte dados
-```cs
-List<CPSysSQLFramework1.Select> select = new List<CPSysSQLFramework1.Select>();
-List<CPSysSQLFramework1.Where> where3 = new List<CPSysSQLFramework1.Where>();
-List<CPSysSQLFramework1.Join> join = new List<CPSysSQLFramework1.Join>();
-List<CPSysSQLFramework1.Campos> campss = new List<CPSysSQLFramework1.Campos>();
-foreach (CPSysSQLFramework1.Campos item in c.getTableByName("tabela").Campos)
-{
-	campss.Add(item);
-}
-foreach (CPSysSQLFramework1.Campos item in c.getTableByName("tabela2").Campos)
-{
-	campss.Add(item);
-}
-join.Add(new CPSysSQLFramework1.Join(c.getTableByName("tabela2"), c.getCampoByName(c.getTableByName("tabela"), "id"), c.getCampoByName(c.getTableByName("tabela2"), "idtable")));
-where3.Add(new CPSysSQLFramework1.Where(c.getCampoByName(c.getTableByName("tabela"), "id"), CPSysUDB.Enums.Command.EQUALS, new CPSysUDB.DAL.Values(1)));
-CPSysSQLFramework1.Select sel = new CPSysSQLFramework1.Select(c.getTableByName("tabela"), campss, false, join, where3, null, null, CPSysUDB.Enums.Union.NONE, null, null, 1);
-select.Add(sel);
-DataSet ds = c.SelectValue(select);
-if (ds != null)
-{
-	Console.WriteLine("    COUNT: " + ds.Tables[0].Rows.Count);
-    string column = "", rows = "";
-    foreach (DataColumn dataColumn in ds.Tables[0].Columns)
-    {
-		column = column + " # " + dataColumn.Caption;
-    }
-    Console.WriteLine("    " + column);
-    foreach (DataRow dataRow in ds.Tables[0].Rows)
-    {
-		rows = "";
-        foreach (var item in dataRow.ItemArray)
-        {
-			rows = rows + " # " + item;
-        }
-        Console.WriteLine("    " + rows);
-	}
-}
-```
 
 ### CPSysSQLFramework2
 Esta versão é a idéia final do projeto com diversas melhorias como o uso de entidades criadas pelo desenvolvedor.
@@ -125,7 +18,7 @@ Esta versão é a idéia final do projeto com diversas melhorias como o uso de e
 - Uso de entidades (classes), cada entidade é uma tabela no banco de dados
 - Rotina para sempre recriar o banco de dados (muito útil para desenvolvimento) com opção para desabilitar
 - Controle total das rotinas de criação e atualização do banco de dados
-- Comunicação híbrida com SQL Server e MySQL sem necessidade de criar querys separadas apenas trocando os dados de conexão
+- Comunicação híbrida com SQL Server, MySQL, Firebird e SQLite sem necessidade de criar querys separadas apenas trocando os dados de conexão
 - Auto atualização do banco de dados, tabelas e campos
 - Criação de PK com auto incremento e FK
 - Respeitar regras do banco de dados
@@ -150,7 +43,10 @@ using CPSysUDB;
 ```
 - Inicie uma conexão
 ```cs
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_teste2", "root", ""), true);// configure a conexao
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLSRV(@"SERVER\SQLEXPRESS", true, "db_teste2", "sa", "*****"), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(@"localhost", true, "db_teste2", "root", ""), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionFIREBIRD(@"localhost", true, "db_teste2.fdb", "SYSDBA", "masterkey"), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_teste2.sqlite", "Version=3;"), true);
 ```
 - Excluír todas as tabelas e criar novamente, é útil para o desenvolvimento mas para produção é necessário remover o comando
 ```cs
@@ -254,119 +150,12 @@ if (ds1 != null)
 
 ## en-US
 ### Description
-The library was created with a process of making the development of an application more agile, facilitating the creation and updating of the database, communication with SQL Server and MySQL, controlling as database routines and universal integration between all compatible platforms. Ç #.
+The library was created with a process of making the development of an application more agile, facilitating the creation and updating of the database, communication with SQL Server, MySQL, Firebird and SQLite, controlling as database routines and universal integration between all compatible platforms. Ç #.
 
 ### Motivation
 - Create a system in a specific database but in some client another database was needed
 - Creation and update of the customer database by the application itself
 - Do not use database queries
-
-### CPSysSQLFramework1
-This version was the initial idea of ​​the project it is still necessary to create tables manually using the objects of the class.
-
-#### Resources
-- Full control of database creation and update routines
-- Hybrid communication with SQL Server and MySQL without the need to create queries just exchanging connection data
-- Auto update of database, tables and fields
-- PK creation with auto increment and FK
-- Respect database rules
-- Creates the database automatically
-- Create database, create table, insert, update, delete, select
-- Where, Sort by, Group by, Union, Boundary, Joints and Sub queries
-- Support for using a field from a table in where
-- Support for database functions like GETDATE and DATEDD
-
-#### Compatibilities
-- Support for INT, VARCHAR, NVARCHAR, DATETIME, DOUBLE and IMAGE
-- Compatible with WEB and Desktop
-
-#### Refunds
-- Respect database rules
-
-#### How to use
-- import a library
-```cs
-using CPSysUDB;
-```
-- Start a connection
-```cs
-CPSysSQLFramework1 c = new CPSysSQLFramework1(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_test1", "root", ""));// configure the connection
-```
-- Create the database
-```cs
-c.NewDataBase("db_test");
-```
-- Create the tables
-```cs
-List<CPSysSQLFramework1.Fields> fields2 = new List<CPSysSQLFramework1.Fields>();
-fields2.Add(new CPSysSQLFramework1.Fields("id", "code2", "t2", new CPSysSQLFramework1.TypeFields(CPSysSQLFramework1.Fields.Types.INT), true, true)); // create an auto-increment PK
-fields2.Add(new CPSysSQLFramework1.Fields("text", "text2", "t2", new CPSysSQLFramework1.TypeFields(CPSysSQLFramework1.Fields.Types.NVARCHAR, "100")));// simple field with parameter
-fields2.Add(new CPSysSQLFramework1.Fields("registration", "registration", "t2", new CPSysSQLFramework1.TypeFields(CPSysSQLFramework1.Fields.Types.DATETIME)));// simple field without parameter
-fields2.Add(new CPSysSQLFramework1.Fields("idtable", "codigotable", "t2", new CPSysSQLFramework1.TypeFields(CPSysSQLFramework1.Fields.Types.INT), false, false, false, true, c.getTableByName("table" ), c.getCampoByName(c.getTableByName("table"), "id"))); // create a FK
-CPSysSQLFramework1.Table table2 = new CPSysSQLFramework1.Table("table2", "t2", fields2); // declare table
-c.NewTable(table2, true, true);
-```
-- Enter data
-```cs
-List<CPSysUDB.DAL.Values> values3 = new List<CPSysUDB.DAL.Values>();
-values3.Add(new CPSysUDB.DAL.Values("test")); // value for single field
-values3.Add(new CPSysUDB.DAL.Values(1));
-values3.Add(new CPSysUDB.DAL.Values(CPSysUDB.DAL.Values.Functions.GETDATE)); // value using database functions
-c.Insert(c.getTableByName("table2"), values3);
-```
-- Update data
-```cs
-List<CPSysUDB.DAL.Values> values2 = new List<CPSysUDB.DAL.Values>();
-values2.Add(new CPSysUDB.DAL.Values("test 123")); // value to be updated
-List<CPSysSQLFramework1.Where> where = new List<CPSysSQLFramework1.Where>();
-where.Add(new CPSysSQLFramework1.Where(c.getFieldByName(c.getTableByName("table"), "id"), CPSysUDB.Enums.Command.EQUALS, new CPSysUDB.DAL.Values(3)));
-c.Update(c.getTableByName("table"), c.getTableByName("table").Fields, values2, where);
-```
-- Delete data
-```cs
-List<CPSysSQLFramework1.Where> where2 = new List<CPSysSQLFramework1.Where>();
-where2.Add(new CPSysSQLFramework1.Where(c.getFieldByName(c.getTableByName("table"), "id"), CPSysUDB.Enums.Command.EQUALS, new CPSysUDB.DAL.Values(4)));// where delete
-c.Delete(c.getTableByName("table"), where2);
-```
-- See data
-```cs
-List<CPSysSQLFramework1.Select> select = new List<CPSysSQLFramework1.Select>();
-List<CPSysSQLFramework1.Where> where3 = new List<CPSysSQLFramework1.Where>();
-List<CPSysSQLFramework1.Join> join = new List<CPSysSQLFramework1.Join>();
-List<CPSysSQLFramework1.Fields> campss = new List<CPSysSQLFramework1.Fields>();
-foreach (CPSysSQLFramework1.Fields item in c.getTableByName("table").Fields)
-{
-	campss.Add(item);
-}
-foreach (CPSysSQLFramework1.Fields item in c.getTableByName("Table2").Fields)
-{
-	campss.Add(item);
-}
-join.Add(new CPSysSQLFramework1.Join(c.getTableByName("table2"), c.getFieldByName(c.getTableByName("table"), "id"), c.getFieldByName(c.getTableByName("table2"), " idtable")));
-where3.Add(new CPSysSQLFramework1.Where(c.getFieldByName(c.getTableByName("table"), "id"), CPSysUDB.Enums.Command.EQUALS, new CPSysUDB.DAL.Values(1)));
-CPSysSQLFramework1.Select sel = new CPSysSQLFramework1.Select(c.getTableByName("table"), campss, false, join, where3, null, null, CPSysUDB.Enums.Union.NONE, null, null, 1);
-select.Add(sel);
-DataSet ds = c.SelectValue(select);
-if (ds != null)
-{
-	Console.WriteLine(" COUNT: " + ds.Tables[0].Rows.Count);
-    string column = "", rows = "";
-    foreach (DataColumn dataColumn in ds.Tables[0].Columns)
-    {
-		column = column + " # " + dataColumn.Caption;
-    }
-    Console.WriteLine(" " + column);
-    foreach (DataRow dataRow in ds.Tables[0].Rows)
-    {
-		rows = "";
-        foreach (var item in dataRow.ItemArray)
-        {
-			rows = rows + " # " + item;
-        }
-        Console.WriteLine(" " + rows);
-	}
-}
-```
 
 ### CPSysSQLFramework2
 This version is the final idea of ​​the project with several improvements such as the use of entities created by the developer.
@@ -375,7 +164,7 @@ This version is the final idea of ​​the project with several improvements su
 - Use of entities (classes), each entity is a table in the database
 - Routine to always recreate the database (very useful for development) with option to disable
 - Full control of database creation and update routines
-- Hybrid communication with SQL Server and MySQL without the need to create separate queries just by exchanging connection data
+- Hybrid communication with SQL Server, MySQL, Firebird and SQLite without the need to create separate queries just by exchanging connection data
 - Auto update of database, tables and fields
 - PK creation with auto increment and FK
 - Respect database rules
@@ -400,7 +189,10 @@ using CPSysUDB;
 ```
 - Start a connection
 ```cs
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(new CPSysUDB.Configuration.ConnectionData(@"localhost", CPSysUDB.Enums.DataBases.MYSQL, true, "db_test2", "root", ""), true);// configure the connection
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLSRV(@"SERVER\SQLEXPRESS", true, "db_teste2", "sa", "*****"), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(@"localhost", true, "db_teste2", "root", ""), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionFIREBIRD(@"localhost", true, "db_teste2.fdb", "SYSDBA", "masterkey"), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_teste2.sqlite", "Version=3;"), true);
 ```
 - Delete all tables and create again, it is useful for development but for production it is necessary to remove the command
 ```cs
