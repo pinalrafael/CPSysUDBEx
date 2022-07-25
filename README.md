@@ -271,7 +271,7 @@ Join1.Add(new CPSysSQLFramework2.Join(new CPSysSQLFramework2.Field().NewField<En
 wheres4.Add(new CPSysSQLFramework2.Where(new CPSysSQLFramework2.Field().NewField<Course>("CourseID"), CPSysUDB.Enums.Command.EQUALS, new CPSysUDB.DAL.Values(1)));
 orders.Add(new CPSysSQLFramework2.OrderBy().NewOrderBy(new CPSysSQLFramework2.Field().NewField<Course>("CourseID"), CPSysUDB.Enums.Order.DESC));
 groups.Add(new CPSysSQLFramework2.GroupBy().NewGroupBy(new CPSysSQLFramework2.Field().NewField<Student>("ID")));
-selects1.Add(new CPSysSQLFramework2.Select().NewSelect<Course>(fields2, Join1, wheres4, orders, groups, 5));
+selects1.Add(new CPSysSQLFramework2.Select().NewSelect<Course>(fields2, Join1, wheres4, orders, groups, 5, CPSysUDB.Enums.Union.NONE, true));
 DataSet ds1 = cPSysSQLFramework2.SelectValue(selects1);
 if (ds1 != null)
 {
