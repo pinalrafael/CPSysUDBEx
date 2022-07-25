@@ -132,7 +132,7 @@ namespace CPSysUDBEx
             orders.Add(new CPSysSQLFramework2.OrderBy().NewOrderBy(new CPSysSQLFramework2.Field().NewField<acessos>("id"), // TABELA E CAMPO DO ORDER BY
                 CPSysUDB.Enums.Order.ASC));// ORDENAÇÃO
             //groups.Add(new CPSysSQLFramework2.GroupBy().NewGroupBy(new CPSysSQLFramework2.Field().NewField<Student>("ID")));// TABELA E CAMPO DO GROUP BY
-            selects1.Add(new CPSysSQLFramework2.Select().NewSelect<acessos>(campos2, null, wheres4, orders));
+            selects1.Add(new CPSysSQLFramework2.Select().NewSelect<acessos>(campos2, null, wheres4, orders, null, -1, CPSysUDB.Enums.Union.NONE, true));
             db.UseLogQuery = true;
             DataSet ds = this.db.SelectValue(selects1);// SELECUTA O SELECT
 
