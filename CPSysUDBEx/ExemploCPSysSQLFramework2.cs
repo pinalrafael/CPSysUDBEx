@@ -1,4 +1,5 @@
 ﻿using CPSysUDB;
+using CPSysUDB.Events;
 using CPSysUDBEx.ClassesCPSysSQLFramework2;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,34 @@ namespace CPSysUDBEx
                 "",// SENHA DE LOGIN
                 true);// Persist Security Info
 
+            // CRIANDO TRIGGER
+            this.db.DeclareTrigger<acessos>(
+            new CPSysUDB.Enums.TriggerType[] {
+                CPSysUDB.Enums.TriggerType.CREATE,
+                CPSysUDB.Enums.TriggerType.ALTER,
+                CPSysUDB.Enums.TriggerType.INSERT,
+                CPSysUDB.Enums.TriggerType.UPDATE,
+                CPSysUDB.Enums.TriggerType.DELETE// LISTA DAS OCASIÕES DA TRIGGER
+            }, (evento, ev) => {// FUNÇÃO QUE SERÁ EXECUTADA QUANDO OCORRER
+                TriggerArgs trg = (TriggerArgs)evento;
+                lblMsg.Text = "Msg: " + trg.Msg + " Response: " + trg.Response + " TriggerType: " + trg.TriggerType;
+            });
+
+            // CRIANDO EVENTOS
+            this.db.DeclareEvent(1, // INTERVALO
+                CPSysUDB.Enums.TypeEvent.SECONDS, // PERÍODO DE INTERVALO
+                (evento, ev) => {// FUNÇÃO QUE SERÁ EXECUTADA QUANDO OCORRER
+                    this.Invoke((Action)delegate {
+                        lblData.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    });
+                });
+
+            // CRIANDO FUNÇÕES
+            this.db.DeclareFunction("insert_acessos", // NOME PARA A FUNÇÃO
+                (evento, ev) => {// FUNÇÃO QUE SERÁ EXECUTADA QUANDO OCORRER
+                    this.db.InsertInto<acessos>((List<CPSysUDB.DAL.Values>)evento);
+                });
+
             /*
              * CASO VOCÊ NÃO QUERIA EXECUTAR ATUALIZAR TODA VEZ DO BANCO DE DADOS, INFORME FALSE PARA ELE CRIAR APENAS AS TABELAS EM MEMÓRIA
              */
@@ -73,7 +102,14 @@ namespace CPSysUDBEx
             valores2.Add(new CPSysUDB.DAL.Values(2.5));
             valores2.Add(new CPSysUDB.DAL.Values(CPSysUDB.DAL.Values.Functions.GETDATE));//USE FUNÇÕES DO BANCO DE DADOS
             valores2.Add(new CPSysUDB.DAL.Values(Grade.A));
-            this.db.InsertInto<acessos>(valores2);// EXECUTA O INSERT
+            if (!chbUseFun.Checked)
+            {
+                this.db.InsertInto<acessos>(valores2);// EXECUTA O INSERT
+            }
+            else
+            {
+                this.db.ExecuteFunction("insert_acessos", valores2);// EXECUTA A FUNÇÃO
+            }
 
             this.Atualizar();
         }

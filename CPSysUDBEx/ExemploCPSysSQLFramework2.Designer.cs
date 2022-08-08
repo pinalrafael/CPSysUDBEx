@@ -40,6 +40,9 @@
             this.lblId = new System.Windows.Forms.Label();
             this.btnDeletar = new System.Windows.Forms.Button();
             this.gvLista = new System.Windows.Forms.DataGridView();
+            this.lblMsg = new System.Windows.Forms.Label();
+            this.lblData = new System.Windows.Forms.Label();
+            this.chbUseFun = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.gvLista)).BeginInit();
             this.SuspendLayout();
             // 
@@ -158,11 +161,40 @@
             this.gvLista.TabIndex = 11;
             this.gvLista.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLista_CellClick);
             // 
-            // Form1
+            // lblMsg
+            // 
+            this.lblMsg.AutoSize = true;
+            this.lblMsg.Location = new System.Drawing.Point(14, 137);
+            this.lblMsg.Name = "lblMsg";
+            this.lblMsg.Size = new System.Drawing.Size(0, 13);
+            this.lblMsg.TabIndex = 12;
+            // 
+            // lblData
+            // 
+            this.lblData.AutoSize = true;
+            this.lblData.Location = new System.Drawing.Point(454, 137);
+            this.lblData.Name = "lblData";
+            this.lblData.Size = new System.Drawing.Size(0, 13);
+            this.lblData.TabIndex = 13;
+            // 
+            // chbUseFun
+            // 
+            this.chbUseFun.AutoSize = true;
+            this.chbUseFun.Location = new System.Drawing.Point(17, 72);
+            this.chbUseFun.Name = "chbUseFun";
+            this.chbUseFun.Size = new System.Drawing.Size(87, 17);
+            this.chbUseFun.TabIndex = 14;
+            this.chbUseFun.Text = "Usar Função";
+            this.chbUseFun.UseVisualStyleBackColor = true;
+            // 
+            // ExemploCPSysSQLFramework2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.chbUseFun);
+            this.Controls.Add(this.lblData);
+            this.Controls.Add(this.lblMsg);
             this.Controls.Add(this.gvLista);
             this.Controls.Add(this.btnDeletar);
             this.Controls.Add(this.lblId);
@@ -198,5 +230,8 @@
         private System.Windows.Forms.Label lblId;
         private System.Windows.Forms.Button btnDeletar;
         private System.Windows.Forms.DataGridView gvLista;
+        private System.Windows.Forms.Label lblMsg;
+        private System.Windows.Forms.Label lblData;
+        private System.Windows.Forms.CheckBox chbUseFun;
     }
 }

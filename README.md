@@ -26,7 +26,9 @@ Esta versão é a idéia final do projeto com diversas melhorias como o uso de e
 - Create DataBase, Create Table, Insert, Update, Delete, Select
 - Where, Order By, Group By, Union, Limit e Joins
 - Suporte para funções do banco de dados como GETDATE e DATEADD
-- Suporte para usar um campo de uma tabela no where
+- Suporte para usar um campo de uma tabela no where.
+- Suporte para comando distinct.
+- Criação de funções, eventos e gatilhos dentro da biblioteca.
 
 #### Compatibilidades
 - Suporte para int, string, DateTime, double e enum
@@ -147,6 +149,42 @@ if (ds1 != null)
     }
 }
 ```
+- Criando funções
+```cs
+cPSysSQLFramework2.DeclareFunction("function_teste", (sender, e) => {
+    Console.WriteLine("InsertInto Course Function: " + cPSysSQLFramework2.InsertInto<Course>((List<CPSysUDB.DAL.Values>)sender));
+    if (cPSysSQLFramework2.ErrorMsg != "")
+    {
+        Console.WriteLine("    ERRO: " + cPSysSQLFramework2.ErrorMsg);
+    }
+});
+```
+- Executando Funções
+```cs
+List<CPSysUDB.DAL.Values> valores3 = new List<CPSysUDB.DAL.Values>();
+valores3.Add(new CPSysUDB.DAL.Values("ExecuteFunction"));
+valores3.Add(new CPSysUDB.DAL.Values(1));
+valores3.Add(new CPSysUDB.DAL.Values(20.8));
+cPSysSQLFramework2.ExecuteFunction("function_teste", valores3);
+```
+- Criando gatilhos
+```cs
+cPSysSQLFramework2.DeclareTrigger<Course>(
+new CPSysUDB.Enums.TriggerType[] { CPSysUDB.Enums.TriggerType.CREATE, CPSysUDB.Enums.TriggerType.ALTER, CPSysUDB.Enums.TriggerType.INSERT }, (sender, e) =>
+{
+    TriggerArgs trg = (TriggerArgs)sender;
+    Console.WriteLine("Msg: " + trg.Msg);
+    Console.WriteLine("Response: " + trg.Response);
+    Console.WriteLine("TriggerType: " + trg.TriggerType);
+    Console.WriteLine(trg.Query);
+});
+```
+- Criando eventos
+```cs
+cPSysSQLFramework2.DeclareEvent(1, CPSysUDB.Enums.TypeEvent.SECONDS, (sender, e) => {
+    Console.WriteLine("EVENT: 1 SECONDS " + DateTime.Now);
+});
+```
 
 ## en-US
 ### Description
@@ -172,7 +210,9 @@ This version is the final idea of ​​the project with several improvements su
 - Create DataBase, Create Table, Insert, Update, Delete, Select
 - Where, Order By, Group By, Union, Limit and Joins
 - Support for database functions like GETDATE and DATEDD
-- Support for using a field from a table in where
+- Support for using a field from a table in where.
+- Support for distinct command.
+- Creation of functions, events and triggers within the library.
 
 #### Compatibilities
 - Support for int, string, DateTime, double and enum
@@ -292,6 +332,42 @@ if (ds1 != null)
         Console.WriteLine(" " + rows);
     }
 }
+```
+- Creating functions
+```cs
+cPSysSQLFramework2.DeclareFunction("function_teste", (sender, e) => {
+    Console.WriteLine("InsertInto Course Function: " + cPSysSQLFramework2.InsertInto<Course>((List<CPSysUDB.DAL.Values>)sender));
+    if (cPSysSQLFramework2.ErrorMsg != "")
+    {
+        Console.WriteLine("    ERRO: " + cPSysSQLFramework2.ErrorMsg);
+    }
+});
+```
+- Executing Functions
+```cs
+List<CPSysUDB.DAL.Values> valores3 = new List<CPSysUDB.DAL.Values>();
+valores3.Add(new CPSysUDB.DAL.Values("ExecuteFunction"));
+valores3.Add(new CPSysUDB.DAL.Values(1));
+valores3.Add(new CPSysUDB.DAL.Values(20.8));
+cPSysSQLFramework2.ExecuteFunction("function_teste", valores3);
+```
+- Creating triggers
+```cs
+cPSysSQLFramework2.DeclareTrigger<Course>(
+new CPSysUDB.Enums.TriggerType[] { CPSysUDB.Enums.TriggerType.CREATE, CPSysUDB.Enums.TriggerType.ALTER, CPSysUDB.Enums.TriggerType.INSERT }, (sender, e) =>
+{
+    TriggerArgs trg = (TriggerArgs)sender;
+    Console.WriteLine("Msg: " + trg.Msg);
+    Console.WriteLine("Response: " + trg.Response);
+    Console.WriteLine("TriggerType: " + trg.TriggerType);
+    Console.WriteLine(trg.Query);
+});
+```
+- Creating events
+```cs
+cPSysSQLFramework2.DeclareEvent(1, CPSysUDB.Enums.TypeEvent.SECONDS, (sender, e) => {
+    Console.WriteLine("EVENT: 1 SECONDS " + DateTime.Now);
+});
 ```
 
 # CREATOR
