@@ -29,6 +29,7 @@ Esta versão é a idéia final do projeto com diversas melhorias como o uso de e
 - Suporte para usar um campo de uma tabela no where.
 - Suporte para comando distinct.
 - Criação de funções, eventos e gatilhos dentro da biblioteca.
+- Uso das funções min, max, avg, sum, count, upper, lower, trim para os campos do select e where.
 
 #### Compatibilidades
 - Suporte para int, string, DateTime, double e enum
@@ -185,6 +186,64 @@ cPSysSQLFramework2.DeclareEvent(1, CPSysUDB.Enums.TypeEvent.SECONDS, (sender, e)
     Console.WriteLine("EVENT: 1 SECONDS " + DateTime.Now);
 });
 ```
+- Criando apelidos
+```cs
+List<CPSysSQLFramework2.Select> selects4 = new List<CPSysSQLFramework2.Select>();
+List<CPSysSQLFramework2.Field> campos4 = new List<CPSysSQLFramework2.Field>();
+campos4.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>("EnrollmentID", "id"));
+campos4.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>("Grade", "grade"));
+selects4.Add(new CPSysSQLFramework2.Select().NewSelect<Enrollment>(campos4));
+DataSet ds4 = cPSysSQLFramework2.SelectValue(selects4);
+if (ds4 != null)
+{
+    Console.WriteLine("    COUNT: " + ds4.Tables[0].Rows.Count);
+    string column = "", rows = "";
+    foreach (DataColumn dataColumn in ds4.Tables[0].Columns)
+    {
+        column = column + " # " + dataColumn.Caption;
+    }
+    Console.WriteLine("    " + column);
+    foreach (DataRow dataRow in ds4.Tables[0].Rows)
+    {
+        rows = "";
+        foreach (var item in dataRow.ItemArray)
+        {
+            rows = rows + " # " + item;
+        }
+        Console.WriteLine("    " + rows);
+    }
+}
+```
+- Criando funções do select
+```cs
+List<CPSysSQLFramework2.Select> selects5 = new List<CPSysSQLFramework2.Select>();
+List<CPSysSQLFramework2.Field> campos5 = new List<CPSysSQLFramework2.Field>();
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.COUNT, "EnrollmentID", "conta"));
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.MAX, "EnrollmentID", "max"));
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.MIN, "EnrollmentID", "min"));
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.SUM, "EnrollmentID", "sum"));
+selects5.Add(new CPSysSQLFramework2.Select().NewSelect<Enrollment>(campos5));
+DataSet ds5 = cPSysSQLFramework2.SelectValue(selects5);
+if (ds5 != null)
+{
+    Console.WriteLine("    COUNT: " + ds5.Tables[0].Rows.Count);
+    string column = "", rows = "";
+    foreach (DataColumn dataColumn in ds5.Tables[0].Columns)
+    {
+        column = column + " # " + dataColumn.Caption;
+    }
+    Console.WriteLine("    " + column);
+    foreach (DataRow dataRow in ds5.Tables[0].Rows)
+    {
+        rows = "";
+        foreach (var item in dataRow.ItemArray)
+        {
+            rows = rows + " # " + item;
+        }
+        Console.WriteLine("    " + rows);
+    }
+}
+```
 
 ## en-US
 ### Description
@@ -213,6 +272,7 @@ This version is the final idea of ​​the project with several improvements su
 - Support for using a field from a table in where.
 - Support for distinct command.
 - Creation of functions, events and triggers within the library.
+- Use of min, max, avg, sum, count, upper, lower, trim functions for select and where fields.
 
 #### Compatibilities
 - Support for int, string, DateTime, double and enum
@@ -368,6 +428,64 @@ new CPSysUDB.Enums.TriggerType[] { CPSysUDB.Enums.TriggerType.CREATE, CPSysUDB.E
 cPSysSQLFramework2.DeclareEvent(1, CPSysUDB.Enums.TypeEvent.SECONDS, (sender, e) => {
     Console.WriteLine("EVENT: 1 SECONDS " + DateTime.Now);
 });
+```
+- Creating nicknames
+```cs
+List<CPSysSQLFramework2.Select> selects4 = new List<CPSysSQLFramework2.Select>();
+List<CPSysSQLFramework2.Field> campos4 = new List<CPSysSQLFramework2.Field>();
+campos4.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>("EnrollmentID", "id"));
+campos4.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>("Grade", "grade"));
+selects4.Add(new CPSysSQLFramework2.Select().NewSelect<Enrollment>(campos4));
+DataSet ds4 = cPSysSQLFramework2.SelectValue(selects4);
+if (ds4 != null)
+{
+    Console.WriteLine("    COUNT: " + ds4.Tables[0].Rows.Count);
+    string column = "", rows = "";
+    foreach (DataColumn dataColumn in ds4.Tables[0].Columns)
+    {
+        column = column + " # " + dataColumn.Caption;
+    }
+    Console.WriteLine("    " + column);
+    foreach (DataRow dataRow in ds4.Tables[0].Rows)
+    {
+        rows = "";
+        foreach (var item in dataRow.ItemArray)
+        {
+            rows = rows + " # " + item;
+        }
+        Console.WriteLine("    " + rows);
+    }
+}
+```
+- Creating select functions
+```cs
+List<CPSysSQLFramework2.Select> selects5 = new List<CPSysSQLFramework2.Select>();
+List<CPSysSQLFramework2.Field> campos5 = new List<CPSysSQLFramework2.Field>();
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.COUNT, "EnrollmentID", "conta"));
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.MAX, "EnrollmentID", "max"));
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.MIN, "EnrollmentID", "min"));
+campos5.Add(new CPSysSQLFramework2.Field().NewField<Enrollment>(CPSysUDB.Enums.FieldFunction.SUM, "EnrollmentID", "sum"));
+selects5.Add(new CPSysSQLFramework2.Select().NewSelect<Enrollment>(campos5));
+DataSet ds5 = cPSysSQLFramework2.SelectValue(selects5);
+if (ds5 != null)
+{
+    Console.WriteLine("    COUNT: " + ds5.Tables[0].Rows.Count);
+    string column = "", rows = "";
+    foreach (DataColumn dataColumn in ds5.Tables[0].Columns)
+    {
+        column = column + " # " + dataColumn.Caption;
+    }
+    Console.WriteLine("    " + column);
+    foreach (DataRow dataRow in ds5.Tables[0].Rows)
+    {
+        rows = "";
+        foreach (var item in dataRow.ItemArray)
+        {
+            rows = rows + " # " + item;
+        }
+        Console.WriteLine("    " + rows);
+    }
+}
 ```
 
 # CREATOR
