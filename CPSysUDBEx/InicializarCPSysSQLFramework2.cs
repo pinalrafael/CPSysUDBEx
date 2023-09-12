@@ -31,7 +31,8 @@ namespace CPSysUDBEx
                     break;
             }
             return new CPSysUDB.CPSysSQLFramework2(connectionData, // DADOS DA CONEXÃO
-                true);// CRIAR BANCO DE DADOS
+                true,// CRIAR BANCO DE DADOS
+                true);// CONEXÃO PERSISTENTE
             /*
              * OBS: SE NÃO INFORMAR O BANCO DE DADOS ELE CONECTA NO BANCO PADRÃO DO SQLSRV OU MYSQL
              */

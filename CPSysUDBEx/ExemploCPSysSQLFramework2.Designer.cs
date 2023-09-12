@@ -209,6 +209,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ExemploCPSysSQLFramework2";
             this.Text = "Exemplo CPSysSQLFramework2";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExemploCPSysSQLFramework2_FormClosing);
             this.Load += new System.EventHandler(this.CPSysSQLFramework2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvLista)).EndInit();
             this.ResumeLayout(false);

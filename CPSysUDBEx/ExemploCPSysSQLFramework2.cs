@@ -151,6 +151,11 @@ namespace CPSysUDBEx
             }
         }
 
+        private void ExemploCPSysSQLFramework2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.db.CloseConnection();
+        }
+
         private void Atualizar()
         {
             List<CPSysSQLFramework2.Select> selects1 = new List<CPSysSQLFramework2.Select>();// CRIA SELECT

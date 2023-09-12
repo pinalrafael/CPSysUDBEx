@@ -46,10 +46,11 @@ using CPSysUDB;
 ```
 - Inicie uma conexão
 ```cs
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLSRV(@"SERVER\SQLEXPRESS", true, "db_teste2", "sa", "*****"), true);
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(@"localhost", true, "db_teste2", "root", ""), true);
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionFIREBIRD(@"localhost", true, "db_teste2.fdb", "SYSDBA", "masterkey"), true);
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_teste2.sqlite", "Version=3;"), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLSRV(@"SERVER\SQLEXPRESS", true, "db_teste2", "sa", "*****"), true, 
+true);// indica que a conexão será persistente, sendo nexessário usar a função CloseConnection()
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(@"localhost", true, "db_teste2", "root", ""), true, true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionFIREBIRD(@"localhost", true, "db_teste2.fdb", "SYSDBA", "masterkey"), true, true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_teste2.sqlite", "Version=3;"), true, true);
 ```
 - Excluír todas as tabelas e criar novamente, é útil para o desenvolvimento mas para produção é necessário remover o comando
 ```cs
@@ -244,6 +245,10 @@ if (ds5 != null)
     }
 }
 ```
+- Fechando a conexão
+```cs
+cPSysSQLFramework2.CloseConnection();
+```
 
 ## en-US
 ### Description
@@ -289,10 +294,11 @@ using CPSysUDB;
 ```
 - Start a connection
 ```cs
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLSRV(@"SERVER\SQLEXPRESS", true, "db_teste2", "sa", "*****"), true);
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(@"localhost", true, "db_teste2", "root", ""), true);
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionFIREBIRD(@"localhost", true, "db_teste2.fdb", "SYSDBA", "masterkey"), true);
-CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_teste2.sqlite", "Version=3;"), true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLSRV(@"SERVER\SQLEXPRESS", true, "db_teste2", "sa", "*****"), true, 
+true);// indicates that the connection will be persistent, making it necessary to use the CloseConnection() function
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(@"localhost", true, "db_teste2", "root", ""), true, true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionFIREBIRD(@"localhost", true, "db_teste2.fdb", "SYSDBA", "masterkey"), true, true);
+CPSysSQLFramework2 cPSysSQLFramework2 = new CPSysSQLFramework2(CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_teste2.sqlite", "Version=3;"), true, true);
 ```
 - Delete all tables and create again, it is useful for development but for production it is necessary to remove the command
 ```cs
@@ -486,6 +492,10 @@ if (ds5 != null)
         Console.WriteLine("    " + rows);
     }
 }
+```
+- Closing the connection
+```cs
+cPSysSQLFramework2.CloseConnection();
 ```
 
 # CREATOR
