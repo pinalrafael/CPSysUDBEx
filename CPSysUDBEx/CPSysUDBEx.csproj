@@ -107,17 +107,28 @@
   <ItemGroup>
     <Compile Include="ClassesCPSysSQLFramework2\acessos.cs" />
     <Compile Include="ClassesCPSysSQLFramework2\telasacessos.cs" />
+    <Compile Include="ClassesCPSysSQLFramework3\acessos.cs" />
+    <Compile Include="ClassesCPSysSQLFramework3\telasacessos.cs" />
     <Compile Include="ExemploCPSysSQLFramework2.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ExemploCPSysSQLFramework2.Designer.cs">
       <DependentUpon>ExemploCPSysSQLFramework2.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExemploCPSysSQLFramework3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExemploCPSysSQLFramework3.designer.cs">
+      <DependentUpon>ExemploCPSysSQLFramework3.cs</DependentUpon>
+    </Compile>
     <Compile Include="InicializarCPSysSQLFramework2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ExemploCPSysSQLFramework2.resx">
       <DependentUpon>ExemploCPSysSQLFramework2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExemploCPSysSQLFramework3.resx">
+      <DependentUpon>ExemploCPSysSQLFramework3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
