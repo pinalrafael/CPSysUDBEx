@@ -1,4 +1,5 @@
-﻿using CPSysUDBEx.ClassesCPSysSQLFramework2;
+﻿using CPSysUDB.Enums;
+using CPSysUDBEx.ClassesCPSysSQLFramework2;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -92,7 +93,7 @@ namespace CPSysUDBEx
                 valores2.Add(new CPSysUDB.DAL.Values("AUTO ADD"));
                 valores2.Add(new CPSysUDB.DAL.Values(1));
                 valores2.Add(new CPSysUDB.DAL.Values(2.5));
-                valores2.Add(new CPSysUDB.DAL.Values(CPSysUDB.DAL.Values.Functions.GETDATE));//USE FUNÇÕES DO BANCO DE DADOS
+                valores2.Add(new CPSysUDB.DAL.Values(Functions.GETDATE));//USE FUNÇÕES DO BANCO DE DADOS
                 valores2.Add(new CPSysUDB.DAL.Values(Grade.A));
                 db.InsertInto<acessos>(valores2);
             }

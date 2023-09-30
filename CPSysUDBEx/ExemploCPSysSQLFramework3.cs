@@ -30,7 +30,8 @@ namespace CPSysUDBEx
 
         private void ExemploCPSysSQLFramework3_Load(object sender, EventArgs e)
         {
-            CPSysSQLFramework3.CreateConfigFile("darabaseconfig.cfsq", CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_test3.sqlite", "Version=3;").SetDateTimeFormat("dd/MM/yyyy HH:mm:ss"), "87654321", "123456", "12345678");
+            //CPSysSQLFramework3.CreateConfigFile("darabaseconfig.cfsq", CPSysUDB.Configuration.ConnectionData.CreateConnectionMYSQL(@"localhost", true, "db_test3", "root", ""), "87654321", "123456", "12345678");
+            CPSysSQLFramework3.CreateConfigFile("darabaseconfig.cfsq", CPSysUDB.Configuration.ConnectionData.CreateConnectionSQLITE(@"db_test3.sqlite", "Version=3;"), "87654321", "123456", "12345678");
 
             cPSysSQLFramework3 = new CPSysSQLFramework3("darabaseconfig.cfsq", "87654321", "12345678", "123456", true, true);
             cPSysSQLFramework3.UseLogQuery = true;
@@ -181,14 +182,13 @@ namespace CPSysUDBEx
         {
             acessos acc = new acessos();
             acc.Select<acessos>();
-            acc.Where<acessos>("id", CPSysUDB.Enums.Command.BIGGEREQUALS, 1);
+            /*acc.Where<acessos>("id", CPSysUDB.Enums.Command.BIGGEREQUALS, 1);
             acc.OrderBy<acessos>("id", CPSysUDB.Enums.Order.ASC);
             acc.GroupBy<acessos>("id");
             acc.Distinct();
             acc.Limit(1000);
-            acc.Offset(1, 1000);
+            acc.Offset(1, 1000);*/
 
-            cPSysSQLFramework3.UseLogQuery = true;
             DataSet ds = this.cPSysSQLFramework3.Query(acc);// SELECUTA O SELECT
 
             for (int i = 0; i < gvLista.RowCount; i++)

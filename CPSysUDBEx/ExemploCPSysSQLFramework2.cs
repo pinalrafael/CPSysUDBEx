@@ -1,4 +1,5 @@
 ﻿using CPSysUDB;
+using CPSysUDB.Enums;
 using CPSysUDB.Events;
 using CPSysUDBEx.ClassesCPSysSQLFramework2;
 using System;
@@ -100,7 +101,7 @@ namespace CPSysUDBEx
             valores2.Add(new CPSysUDB.DAL.Values(txtAddNome.Text));// ADICIONE OS VALORES NA ORDEM RESPECTIVA DA CLASSE
             valores2.Add(new CPSysUDB.DAL.Values(1));
             valores2.Add(new CPSysUDB.DAL.Values(2.5));
-            valores2.Add(new CPSysUDB.DAL.Values(CPSysUDB.DAL.Values.Functions.GETDATE));//USE FUNÇÕES DO BANCO DE DADOS
+            valores2.Add(new CPSysUDB.DAL.Values(Functions.GETDATE));//USE FUNÇÕES DO BANCO DE DADOS
             valores2.Add(new CPSysUDB.DAL.Values(Grade.A));
             if (!chbUseFun.Checked)
             {
